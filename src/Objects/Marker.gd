@@ -1,6 +1,7 @@
 extends Area2D
 
 var connector: String = ""
+var uuid: String = ""
 var is_following: bool = true
 var is_connector: bool = false
 var is_hovering: bool = false
@@ -10,6 +11,25 @@ var sprite: Sprite
 
 onready var count_label = $Label
 onready var count = 0
+
+func _get_marker_data(marker: Node2D, delete: bool = false) -> Dictionary:
+    if delete:
+        return {
+            "event": "remove_marker",
+            "uuid": marker.uuid
+            }
+
+    return {
+        "event": "update_marker",
+        "uuid": marker.uuid,
+        "x": marker.position.x,
+        "y": marker.position.y,
+        "connector": marker.connector,
+        "color": marker.modulate.to_html(false),
+        "is_connector": marker.is_connector,
+        "sprite_path": marker.sprite_path,
+    }
+
 
 func init() -> void:
     sprite = $Sprite
@@ -60,13 +80,16 @@ func _input(event: InputEvent) -> void:
 func _input_event(_viewport: Object, event: InputEvent, _shape_idx: int) -> void:
     if event is InputEventMouseButton:
         if event.button_index == BUTTON_LEFT:
-            is_following = event.is_pressed()
+            is_following = event.is_pressed() 
             if !is_following and global_position.y > 750:
                 queue_free()
+            if !is_following:
+                Events.emit_signal("coop_send_update", _get_marker_data(self))
         elif event.button_index == BUTTON_RIGHT \
             and event.is_pressed():
             hide()
             Util.add_hidden(self)
+            Events.emit_signal("coop_send_update", _get_marker_data(self, true))
         elif event.button_index == BUTTON_WHEEL_UP and event.is_pressed():
             set_count(count + 1)
         elif event.button_index == BUTTON_WHEEL_DOWN and event.is_pressed():

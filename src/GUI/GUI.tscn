@@ -1,4 +1,4 @@
-[gd_scene load_steps=123 format=2]
+[gd_scene load_steps=127 format=2]
 
 [ext_resource path="res://src/GUI/MarkerButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/GUI/GUI.gd" type="Script" id=2]
@@ -49,6 +49,10 @@
 [ext_resource path="res://assets/icons/items/glove.png" type="Texture" id=47]
 [ext_resource path="res://src/GUI/AutoTrackingSettings.tscn" type="PackedScene" id=48]
 [ext_resource path="res://assets/icons/undo.png" type="Texture" id=49]
+[ext_resource path="res://src/GUI/CoopServerSettings.tscn" type="PackedScene" id=50]
+[ext_resource path="res://src/GUI/CoopServerSettings.gd" type="Script" id=51]
+[ext_resource path="res://src/GUI/CoopClientConnect.tscn" type="PackedScene" id=52]
+[ext_resource path="res://src/GUI/CoopClientConnect.gd" type="Script" id=53]
 [ext_resource path="res://assets/icons/blankTextureSmaller.png" type="Texture" id=54]
 [ext_resource path="res://assets/icons/notes.png" type="Texture" id=69]
 [ext_resource path="res://src/GUI/Map.gd" type="Script" id=70]
@@ -1572,6 +1576,96 @@ margin_top = 7.0
 margin_right = 493.0
 margin_bottom = 368.0
 script = ExtResource( 105 )
+
+[node name="CoopClientContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="CoopClientConnect" type="Control" parent="CoopClientContainer"]
+margin_right = 1500.0
+margin_bottom = 950.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Shadow" type="ColorRect" parent="CoopClientContainer/CoopClientConnect"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.0745098, 0.0745098, 0.0745098, 0.631373 )
+script = ExtResource( 73 )
+
+[node name="Container" type="MarginContainer" parent="CoopClientContainer/CoopClientConnect/Shadow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 500
+custom_constants/margin_top = 275
+custom_constants/margin_left = 500
+custom_constants/margin_bottom = 390
+
+[node name="BG" type="PanelContainer" parent="CoopClientContainer/CoopClientConnect/Shadow/Container"]
+margin_left = 500.0
+margin_top = 275.0
+margin_right = 1000.0
+margin_bottom = 560.0
+
+[node name="Control" parent="CoopClientContainer/CoopClientConnect/Shadow/Container/BG" instance=ExtResource( 52 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 493.0
+margin_bottom = 278.0
+script = ExtResource( 53 )
+
+[node name="CoopServerContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="CoopServerSettings" type="Control" parent="CoopServerContainer"]
+margin_right = 1500.0
+margin_bottom = 950.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Shadow" type="ColorRect" parent="CoopServerContainer/CoopServerSettings"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.0745098, 0.0745098, 0.0745098, 0.631373 )
+script = ExtResource( 73 )
+
+[node name="Container" type="MarginContainer" parent="CoopServerContainer/CoopServerSettings/Shadow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 500
+custom_constants/margin_top = 275
+custom_constants/margin_left = 500
+custom_constants/margin_bottom = 390
+
+[node name="BG" type="PanelContainer" parent="CoopServerContainer/CoopServerSettings/Shadow/Container"]
+margin_left = 500.0
+margin_top = 275.0
+margin_right = 1000.0
+margin_bottom = 560.0
+
+[node name="Control" parent="CoopServerContainer/CoopServerSettings/Shadow/Container/BG" instance=ExtResource( 50 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 493.0
+margin_bottom = 278.0
+script = ExtResource( 51 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 margin_right = 44.0

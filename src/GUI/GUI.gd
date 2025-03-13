@@ -13,10 +13,14 @@ enum {
     MENU_START_AUTOTRACKING = 9,
     MENU_AUTOTRACKING_SETTINGS = 10,
     # 11 separator
-    MENU_TOGGLE_DOORS_NOTES = 12,
-    MENU_NOTES_ONLY = 13,
-    MENU_MOVE_DOORS_NOTES = 14,
-    MENU_SUB_MENU = 15
+    MENU_COOP_SERVER_SETTINGS = 12,
+    MENU_COOP_CONNECT = 13,
+    # 14 separator
+    MENU_TOGGLE_DOORS_NOTES = 15,
+    MENU_NOTES_ONLY = 16,
+    MENU_MOVE_DOORS_NOTES = 17,
+    MENU_SUB_MENU = 18
+
 }
 
 enum {
@@ -37,6 +41,8 @@ onready var menu = $PopupMenu
 onready var autotrack_menu = $ATContainer/AutoTrackingSettings
 onready var autotrack_menu_modal = $ATContainer/AutoTrackingSettings/Shadow
 onready var autotrack_menu_container = $ATContainer/AutoTrackingSettings/Shadow/Container/BG
+onready var coopserver_modal = $CoopServerContainer/CoopServerSettings/Shadow
+onready var coopclient_modal = $CoopClientContainer/CoopClientConnect/Shadow
 onready var tooltip = $TooltipPopup
 onready var tooltip_container = $TooltipPopup/Margin/Container
 onready var tooltip_timer = $TooltipPopup/Timer
@@ -69,6 +75,9 @@ func _ready() -> void:
     menu.add_separator()
     menu.add_item("(Re)connect Auto-Tracking", MENU_START_AUTOTRACKING)
     menu.add_item("Auto-Tracking Settings", MENU_AUTOTRACKING_SETTINGS)
+    menu.add_separator()
+    menu.add_item("Start Co-op Server", MENU_COOP_SERVER_SETTINGS)
+    menu.add_item("Connect To Co-op Server", MENU_COOP_CONNECT)
     menu.add_separator()
     menu.add_item("Toggle Doors Notes", MENU_TOGGLE_DOORS_NOTES)
     menu.add_item("Toggle Notes Only Mode", MENU_NOTES_ONLY)     
@@ -135,6 +144,11 @@ func menu_pressed(id: int) -> void:
             Events.emit_signal("start_autotracking")
         MENU_AUTOTRACKING_SETTINGS:
             autotrack_menu_modal.show()
+        MENU_COOP_SERVER_SETTINGS:
+            coopserver_modal.show()
+        MENU_COOP_CONNECT:
+            coopclient_modal.show()
+
         MENU_TOGGLE_DOORS_NOTES:
             #close notes
             if $"/root".get_viewport().size.x > 1600:

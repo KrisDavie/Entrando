@@ -15,13 +15,23 @@ func _gui_input(event: InputEvent) -> void:
     if event is InputEventMouseButton \
         and event.is_pressed():
         match(event.button_index):
-            BUTTON_RIGHT:              
+            BUTTON_RIGHT:       
                 set_pressed_texture(BLANK_TEXTURE);
                 if get_parent().self_modulate == CHECKED_GREY:
                     get_parent().self_modulate = Color.white
                 else:
                     get_parent().self_modulate = CHECKED_GREY
+                    # Events.emit_signal("coop_send_update", {
+                    #     "event": "toggle_todo",
+                    #     "node_path": get_path(),
+                    #     "is_pressed": false
+                    # })       
             BUTTON_MIDDLE:
+                Events.emit_signal("coop_send_update", {
+                    "event": "toggle_todo",
+                    "node_path": get_path(),
+                    "is_pressed": !is_pressed()
+                })
                 if (get_pressed_texture() != TODO_TEXTURE):
                     set_pressed_texture(TODO_TEXTURE);
                     set_pressed(false);

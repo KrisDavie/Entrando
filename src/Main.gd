@@ -9,6 +9,8 @@ onready var markers: Node2D = $Markers
 func _ready() -> void:
     OS.low_processor_usage_mode = true
     get_tree().set_auto_accept_quit(false)
+    # Randomize for unique "UUIDs"
+    randomize()
     $GUILayer/Quit.hide()
     $GUILayer/Quit/Confirmation.connect("confirmed", self, "_on_confirmed")
     $GUILayer/Quit/Confirmation.connect("popup_hide", self, "_on_cancelled")
@@ -20,6 +22,8 @@ func _ready() -> void:
     Events.connect("save_file_clicked", self, "open_save_dialog")
     Events.connect("load_file_clicked", self, "open_load_dialog")
     Events.connect("move_doors_notes", self, "_move_doors_notes")
+    Events.connect("coop_update_marker", self, "_update_or_add_marker")
+    Events.connect("coop_remove_marker", self, "coop_remove_marker")
     Events.emit_signal("start_autotracking")
 
     set_window_size()
@@ -100,6 +104,36 @@ func load_data(path: String) -> bool:
     save_file.close()
     return true
 
+func _update_or_add_marker(data: Dictionary) -> void:
+    for i in markers.get_child_count():
+        var marker = markers.get_child(i)
+        if marker.uuid == data.uuid:
+            marker.position = Vector2(data.x, data.y)
+            return
+    add_coop_marker(data)
+
+func add_coop_marker(marker_data: Dictionary) -> void:
+    var marker = marker_scene.instance()
+    marker.init()
+    marker.sprite_path = marker_data.sprite_path
+    if marker_data.connector != "":
+        marker.add_to_group(marker_data.connector)
+        marker.connector = marker_data.connector
+        marker.is_connector = true
+    marker.modulate = Color(marker_data.color)
+    marker.is_following = false
+    marker.uuid = marker_data.uuid
+    markers.add_child(marker)
+    marker.position = Vector2(marker_data.x, marker_data.y)
+
+func coop_remove_marker(uuid: String) -> void:
+    for i in markers.get_child_count():
+        var marker = markers.get_child(i)
+        if marker.uuid == uuid:
+            marker.hide()
+            Util.add_hidden(marker)
+            return
+
 func generate_marker(texture: Texture, color: Color, connector: String) -> void:
     if Util.mode != Util.MODE_OW:
         return
@@ -109,6 +143,8 @@ func generate_marker(texture: Texture, color: Color, connector: String) -> void:
 
     var marker = marker_scene.instance()
     marker.modulate = color
+    marker.uuid = Util.generate_uuid()
+
     if connector != "":
         marker.add_to_group(connector)
         marker.connector = connector
