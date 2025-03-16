@@ -33,8 +33,7 @@ func _input_event(_viewport: Object, event: InputEvent, _shape_idx: int) -> void
         and event.is_pressed():
             hide()
             Util.add_hidden(self)
-            if !is_item:
-                Events.emit_signal("coop_send_update", {
-                    "event": "remove_location",
-                    "node_path": get_path()
-                })
+            Events.emit_signal("coop_send_update", {
+                "event": "remove_location",
+                "node_path": get_path()
+            })
