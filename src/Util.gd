@@ -15,6 +15,7 @@ var drag_and_drop: bool = false
 var nodes_hidden: Array = []
 var last_marker
 var alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+var coop_server = false
 
 
 func _ready() -> void:

@@ -1,6 +1,5 @@
 extends TextureButton
 
-const DISABLED_TEXTURE = preload("res://assets/icons/disabled.png");
 const TODO_TEXTURE = preload("res://assets/icons/todo.png");
 const BLANK_TEXTURE = preload("res://assets/icons/blankTexture.png");
 
@@ -16,16 +15,17 @@ func _gui_input(event: InputEvent) -> void:
         and event.is_pressed():
         match(event.button_index):
             BUTTON_RIGHT:       
-                set_pressed_texture(BLANK_TEXTURE);
+                set_pressed_texture(BLANK_TEXTURE);    
                 if get_parent().self_modulate == CHECKED_GREY:
                     get_parent().self_modulate = Color.white
                 else:
-                    get_parent().self_modulate = CHECKED_GREY
-                    # Events.emit_signal("coop_send_update", {
-                    #     "event": "toggle_todo",
-                    #     "node_path": get_path(),
-                    #     "is_pressed": false
-                    # })       
+                    get_parent().self_modulate = CHECKED_GREY  
+
+                Events.emit_signal("coop_send_update", {
+                    "event": "toggle_button",
+                    "node_path": get_path(),
+                    "checked": get_parent().self_modulate == CHECKED_GREY
+                }) 
             BUTTON_MIDDLE:
                 Events.emit_signal("coop_send_update", {
                     "event": "toggle_todo",

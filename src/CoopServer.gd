@@ -7,6 +7,9 @@ var _use_multiplayer = true
 var last_connected_client = 0
 
 onready var server_status = $"/root/Tracker/GUILayer/GUI/CoopServerContainer/CoopServerSettings/Shadow/Container/BG/Control/StatusText"
+onready var gui_status = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/MarginContainer/VBoxContainer/HBoxContainer2/CoopStatus"
+onready var gui_status_container = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/MarginContainer/VBoxContainer/HBoxContainer2"
+onready var gui_label_container = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/MarginContainer/VBoxContainer/HBoxContainer"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,11 +31,19 @@ func _on_start_coop_server(port: int) -> void:
         set_process(false)
     server_status.text = "Server started on " + ip_address + ":" + str(port)
     Events.emit_signal('connect_to_coop_server', "ws://127.0.0.1:" + str(port))
+    Events.emit_signal('coop_server_started', ip_address + ":" + str(port))
+    Util.coop_server = true
+    gui_status_container.show()
+    gui_label_container.show()
 
     
 func _connected(id, proto):
     _clients[id] = true
     print("Client %d connected with protocol: %s" % [id, proto])
+    if (len(_clients) == 1):
+        gui_status.text = "Server Running"
+    gui_status.text = "Server Running [" + str(len(_clients)-1) + " clients]"
+
 
 func _close_request(id, code, reason):
     _clients.erase(id)

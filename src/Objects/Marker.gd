@@ -74,6 +74,7 @@ func _input(event: InputEvent) -> void:
         and event.button_index == BUTTON_LEFT \
         and !event.is_pressed():
             is_following = false
+            Events.emit_signal("coop_send_update", _get_marker_data(self))
             if global_position.y > 750:
                 queue_free()
 

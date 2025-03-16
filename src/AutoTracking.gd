@@ -1,6 +1,5 @@
 extends Node
 
-const DISABLED_TEXTURE = preload("res://assets/icons/disabled.png");
 const TODO_TEXTURE = preload("res://assets/icons/todo.png");
 const BLANK_TEXTURE = preload("res://assets/icons/blankTexture.png");
 const CHECKED_GREY = Color("282626")
@@ -124,7 +123,7 @@ enum AUTOTRACKER_STATUS {
 
 var _at_status = AUTOTRACKER_STATUS.DISCONNECTED
 
-onready var status_label = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/VBoxContainer/AutoTrackStatus"
+onready var status_label = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/MarginContainer/VBoxContainer/HBoxContainer4/AutoTrackStatus"
 onready var notes_window = $"/root/Tracker/NotesWindow"
 
 func _ready() -> void:
@@ -218,7 +217,10 @@ func _on_data():
         var connect_data = {'Opcode': "Attach", 'Space': "SNES", 'Operands': [device]}
         _client.get_peer(1).put_packet(JSON.print(connect_data).to_utf8())
         Events.emit_signal('set_connected_device', device_index)
-        status_label.text = "Connected to " + device
+        if (device.length() > 23):
+            status_label.text = "Connected to " + device.substring(0, 20) + "..."
+        else:
+            status_label.text = "Connected to " + device
 
         _at_status = AUTOTRACKER_STATUS.CONNECTED
         _timer.start()
@@ -268,8 +270,13 @@ func process_location_data():
                     if !(loc == "ParadoxM" or loc == "ParadoxL"):
                         underworld_node.get_child(0).set_pressed_texture(BLANK_TEXTURE)
                         underworld_node.get_child(0).set_pressed(true)
+                        Events.emit_signal("coop_send_update", {
+                            "event": "toggle_todo",
+                            "node_path": underworld_node.get_child(0).get_path(),
+                            "is_pressed": true
+                        })
                 else:
-                    underworld_node.get_child(0).set_pressed_texture(DISABLED_TEXTURE if all_locs_checked else TODO_TEXTURE)
+                    underworld_node.get_child(0).set_pressed_texture(TODO_TEXTURE)
                     underworld_node.get_child(0).set_pressed(true)
             else:
                 # after loading a save locations on the map get loaded as @loc@[RANDOM NUMBER] instead of just loc
