@@ -26,15 +26,12 @@ func _on_connect_to_server(websocket_url) -> void:
     var err = _client.connect_to_url(websocket_url, [])
     if err != OK:
         connect_status.text = "Unable to connect"
-        print("Unable to connect")
-        set_process(false)
     connected_to = websocket_url
 
-func _closed(was_clean = false):
+func _closed(_was_clean = false):
     connect_status.text = "Connection closed"
     gui_status.text = "Disconnected"
-    print("Closed, clean: ", was_clean)
-    set_process(false)
+    _client.close()
 
 func _connected(_proto = ""):
     connect_status.text = "Connected to " + connected_to
@@ -50,7 +47,6 @@ func _send_update(data: Dictionary) -> void:
 
 func _on_data():
     var pkt = parse_json(_client.get_peer(1).get_packet().get_string_from_utf8())
-    print(pkt)
     if typeof(pkt) != TYPE_DICTIONARY:
         return
     if pkt['event'] == "update_marker":

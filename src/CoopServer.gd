@@ -22,36 +22,30 @@ func _ready() -> void:
 
 
 func _on_start_coop_server(port: int) -> void:
-    print("Starting Co-op server on port", port)
     server_status.text = "Starting server..."
     var ip_address = Util.get_external_ip_address()
     var err = _server.listen(port)
     if err != OK:
-        print("Unable to start server")
-        set_process(false)
+        return
     server_status.text = "Server started on " + ip_address + ":" + str(port)
     Events.emit_signal('connect_to_coop_server', "ws://127.0.0.1:" + str(port))
     Events.emit_signal('coop_server_started', ip_address + ":" + str(port))
+    gui_status.text = "Server Running"
     Util.coop_server = true
     gui_status_container.show()
     gui_label_container.show()
 
     
-func _connected(id, proto):
+func _connected(id, _proto):
     _clients[id] = true
-    print("Client %d connected with protocol: %s" % [id, proto])
-    if (len(_clients) == 1):
-        gui_status.text = "Server Running"
-    gui_status.text = "Server Running [" + str(len(_clients)-1) + " clients]"
+    if (len(_clients) > 1):
+        gui_status.text = "Server Running [" + str(len(_clients)-1) + " clients]"
 
-
-func _close_request(id, code, reason):
+func _close_request(id, _code, _reason):
     _clients.erase(id)
-    print("Client %d disconnecting with code: %d, reason: %s" % [id, code, reason])
 
-func _disconnected(id, was_clean = false):
+func _disconnected(id, _was_clean = false):
     _clients.erase(id)
-    print("Client %d disconnected, clean: %s" % [id, str(was_clean)])
 
 func _on_data(id):
     var pkt = _server.get_peer(id).get_packet()

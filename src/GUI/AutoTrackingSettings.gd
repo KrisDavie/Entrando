@@ -47,7 +47,6 @@ func _on_devices_discovered(_devices) -> void:
         selected_device.add_item(_devices[i], i)
 
 func _on_refresh_devices_pressed() -> void:
-    print("Refreshing devices")
     Events.emit_signal('refresh_devices')
 
 func _on_set_connected_device(_device) -> void:
