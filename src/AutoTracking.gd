@@ -218,7 +218,7 @@ func _on_data():
         _client.get_peer(1).put_packet(JSON.print(connect_data).to_utf8())
         Events.emit_signal('set_connected_device', device_index)
         if (device.length() > 23):
-            status_label.text = "Connected to " + device.substring(0, 20) + "..."
+            status_label.text = "Connected to " + device.substr(0, 20) + "..."
         else:
             status_label.text = "Connected to " + device
 
