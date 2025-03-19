@@ -4,7 +4,6 @@ var _server = WebSocketServer.new()
 var _clients = {}
 var _write_mode = WebSocketPeer.WRITE_MODE_BINARY
 var _use_multiplayer = true
-var last_connected_client = 0
 
 onready var server_status = $"/root/Tracker/GUILayer/GUI/CoopServerContainer/CoopServerSettings/Shadow/Container/BG/Control/StatusText"
 onready var gui_status = $"/root/Tracker/GUILayer/GUI/Container/Margin/HSplitContainer/Entrances/Dungeons/MarginContainer/VBoxContainer/HBoxContainer2/CoopStatus"
@@ -19,6 +18,7 @@ func _ready() -> void:
     _server.connect("client_close_request", self, "_close_request")
     _server.connect("data_received", self, "_on_data")
     Events.connect("start_coop_server", self, "_on_start_coop_server")
+    Events.connect("stop_coop_server", self, "_on_stop_coop_server")
 
 
 func _on_start_coop_server(port: int) -> void:
@@ -34,6 +34,16 @@ func _on_start_coop_server(port: int) -> void:
     Util.coop_server = true
     gui_status_container.show()
     gui_label_container.show()
+
+func _on_stop_coop_server() -> void:
+    server_status.text = "Stopping server..."
+    _server.stop()
+    gui_status_container.hide()
+    gui_label_container.hide()
+    Events.emit_signal('coop_server_stopped')
+    Util.coop_server = false
+    server_status.text = "Server Stopped"
+    _clients.clear()
 
     
 func _connected(id, _proto):

@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://src/GUI/CoopServerSettingsTheme.tres" type="Theme" id=1]
 [ext_resource path="res://src/GUI/OptionsTheme.tres" type="Theme" id=2]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/font/Ubuntu.ttf"
 
 [sub_resource type="DynamicFont" id=2]
-size = 14
+size = 12
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 1 )
@@ -50,7 +51,7 @@ margin_top = 69.0
 margin_right = 480.0
 margin_bottom = 126.0
 custom_fonts/font = SubResource( 2 )
-text = "NOTE: This port must be open, and forwarded to this machine via your router for people outside your network to be able to connect!"
+text = "NOTE: This port must be open, and forwarded to this machine via your router for people outside your network to be able to connect! Entrando will attempt to open the port via UPnP automatically."
 autowrap = true
 
 [node name="Close" type="Button" parent="."]
@@ -65,6 +66,17 @@ margin_left = 25.0
 margin_top = 193.0
 margin_right = 151.0
 margin_bottom = 216.0
+rect_min_size = Vector2( 126, 0 )
+hint_tooltip = "Entrando will attempt to open this port via UPnP, then it will 
+start a co-op server, it will hang while it works! Entrando will 
+look for a UPnP device on your network and attempt to open 
+the selected port automatically. This is not guaranteed to work
+as every network differs. If this does not work and people still 
+cannot connect to you,you MUST open the port yourself to act 
+as the server. Information on how to do this can usually be 
+found on your ISP or router manufacturer's website. Entrando 
+devs can not and will not help with this."
+theme = ExtResource( 1 )
 text = "Start Co-op Server"
 
 [node name="StatusText" type="Label" parent="."]

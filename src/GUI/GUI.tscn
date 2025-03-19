@@ -1,4 +1,4 @@
-[gd_scene load_steps=127 format=2]
+[gd_scene load_steps=128 format=2]
 
 [ext_resource path="res://src/GUI/MarkerButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/GUI/GUI.gd" type="Script" id=2]
@@ -54,6 +54,7 @@
 [ext_resource path="res://src/GUI/CoopClientConnect.tscn" type="PackedScene" id=52]
 [ext_resource path="res://src/GUI/CoopClientConnect.gd" type="Script" id=53]
 [ext_resource path="res://assets/icons/blankTextureSmaller.png" type="Texture" id=54]
+[ext_resource path="res://src/GUI/CoopServerSettingsTheme.tres" type="Theme" id=55]
 [ext_resource path="res://assets/icons/notes.png" type="Texture" id=69]
 [ext_resource path="res://src/GUI/Map.gd" type="Script" id=70]
 [ext_resource path="res://assets/font/PressStart2P-12.tres" type="DynamicFont" id=71]
@@ -1576,6 +1577,7 @@ margin_top = 96.0
 margin_right = 44.0
 margin_bottom = 140.0
 hint_tooltip = "Undo (Mouse 4)"
+theme = ExtResource( 55 )
 texture_normal = ExtResource( 49 )
 texture_hover = ExtResource( 31 )
 

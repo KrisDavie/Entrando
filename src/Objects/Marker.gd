@@ -24,6 +24,7 @@ func _get_marker_data(marker: Node2D, delete: bool = false) -> Dictionary:
         "uuid": marker.uuid,
         "x": marker.position.x,
         "y": marker.position.y,
+        "count": marker.count,
         "connector": marker.connector,
         "color": marker.modulate.to_html(false),
         "is_connector": marker.is_connector,
@@ -93,9 +94,11 @@ func _input_event(_viewport: Object, event: InputEvent, _shape_idx: int) -> void
             Events.emit_signal("coop_send_update", _get_marker_data(self, true))
         elif event.button_index == BUTTON_WHEEL_UP and event.is_pressed():
             set_count(count + 1)
+            Events.emit_signal("coop_send_update", _get_marker_data(self))
         elif event.button_index == BUTTON_WHEEL_DOWN and event.is_pressed():
             if count >= 0:
                 set_count(count - 1)
+                Events.emit_signal("coop_send_update", _get_marker_data(self))
 
 func _on_mouse_entered() -> void:
     is_hovering = true

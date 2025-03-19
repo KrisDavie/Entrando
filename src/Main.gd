@@ -109,6 +109,8 @@ func _update_or_add_marker(data: Dictionary) -> void:
         var marker = markers.get_child(i)
         if marker.uuid == data.uuid:
             marker.position = Vector2(data.x, data.y)
+            if data.count != null:
+                marker.set_count(data.count)
             return
     add_coop_marker(data)
 

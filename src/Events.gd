@@ -39,7 +39,11 @@ signal refresh_devices()
 # warning-ignore:unused_signal
 signal start_coop_server(port)
 # warning-ignore:unused_signal
+signal stop_coop_server()
+# warning-ignore:unused_signal
 signal coop_server_started(address)
+# warning-ignore:unused_signal
+signal coop_server_stopped()
 # warning-ignore:unused_signal
 signal connect_to_coop_server()
 # warning-ignore:unused_signal

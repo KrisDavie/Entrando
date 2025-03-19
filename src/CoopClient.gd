@@ -31,7 +31,6 @@ func _on_connect_to_server(websocket_url) -> void:
 func _closed(_was_clean = false):
     connect_status.text = "Connection closed"
     gui_status.text = "Disconnected"
-    _client.close()
 
 func _connected(_proto = ""):
     connect_status.text = "Connected to " + connected_to
