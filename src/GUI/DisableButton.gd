@@ -16,7 +16,7 @@ func _ready():
 #    pass
 func _gui_input(event: InputEvent) -> void:
     if event is InputEventMouseButton \
-	    and event.is_pressed():
-	    match(event.button_index):
-		    BUTTON_RIGHT:
-			    set_disabled(!is_disabled())
+        and event.is_pressed():
+        match(event.button_index):
+            BUTTON_RIGHT:
+                set_disabled(!is_disabled())

@@ -1,14 +1,24 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Map/LightWorld.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/GUI/GUI.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/Main.gd" type="Script" id=3]
+[ext_resource path="res://src/CoopClient.gd" type="Script" id=3]
 [ext_resource path="res://src/Map/DarkWorld.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Map/Markers.gd" type="Script" id=5]
 [ext_resource path="res://src/AutoTracking.gd" type="Script" id=6]
 [ext_resource path="res://src/GUI/NotesWindow.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/CoopServer.gd" type="Script" id=8]
+[ext_resource path="res://src/Main.gd" type="Script" id=9]
 
 [node name="Tracker" type="Node"]
+script = ExtResource( 9 )
+
+[node name="Coop" type="Node" parent="."]
+
+[node name="Server" type="Node" parent="Coop"]
+script = ExtResource( 8 )
+
+[node name="Client" type="Node" parent="Coop"]
 script = ExtResource( 3 )
 
 [node name="AutoTracker" type="Node" parent="."]
