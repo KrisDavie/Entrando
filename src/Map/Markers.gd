@@ -11,7 +11,8 @@ func save_data() -> Array:
             "is_connector": child.is_connector,
             "color": child.modulate.to_html(false),
             "x": child.position.x,
-            "y": child.position.y
+            "y": child.position.y,
+            "uuid": child.uuid
         })
     return children
 
@@ -29,6 +30,8 @@ func load_data(children: Array) -> void:
             node.is_connector = true
         if 'color' in data:
             node.modulate = Color(data.color)
+        if 'uuid' in data:
+            node.uuid = data.uuid
         node.is_following = false
         add_child(node)
         node.position = Vector2(data.x, data.y)
